@@ -20,12 +20,11 @@ public class HistoriqueTest {
 
         Historique historique = new Historique(date, nature, montant, solde);
 
-        assertEquals(date, historique.getDateDeLoperation());
-
-        assertEquals(nature, historique.getNatureOperation());
-
-        assertEquals(montant, historique.getMontantDeLoperation());
-        
-        assertEquals(solde, historique.getSoldeDuCompte());
+        assertAll("Historique Creation Assertions",
+            () -> assertEquals(date, historique.getDateDeLoperation()),
+            () -> assertEquals(nature, historique.getNatureOperation()),
+            () -> assertEquals(montant, historique.getMontantDeLoperation()),
+            () -> assertEquals(solde, historique.getSoldeDuCompte())
+        );
     }
 }
