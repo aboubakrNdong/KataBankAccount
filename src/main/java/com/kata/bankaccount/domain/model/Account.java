@@ -1,12 +1,16 @@
-package com.kata.bankaccount.domain;
+package com.kata.bankaccount.domain.model;
+
+import com.kata.bankaccount.domain.NatureOperationEnum;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kata.bankaccount.domain.util.Constantes.*;
 
-public class Account {
-    private Long id;
+
+public class Account  {
+   
     private double soldeDuCompte;
     private final List<Historique> historiques;
 
@@ -18,38 +22,35 @@ public class Account {
     public void depot(double montant) {
         validateMontant(montant);
         this.soldeDuCompte += montant;
-        historiques.add(new Historique(LocalDate.now(), montant, this.soldeDuCompte));
+        historiques.add(new Historique(LocalDate.now(), NatureOperationEnum.DEPOT, montant, this.soldeDuCompte));
     }
 
     public void retrait (double montant) {
         validateMontant(montant);
         if (montant > this.soldeDuCompte) {
-            throw new IllegalArgumentException("soldeDuCompte insufisant");
+            throw new IllegalArgumentException(SOLDE_INSUFFISANT);
         }
         this.soldeDuCompte -= montant;
-        historiques.add(new Historique(LocalDate.now(), -montant, this.soldeDuCompte));
+        historiques.add(new Historique(LocalDate.now(), NatureOperationEnum.RETRAIT, -montant, this.soldeDuCompte));
     }
 
     public List<Historique> getHistorique() {
+
+        if(historiques.isEmpty()){
+            throw new IllegalArgumentException(HISTORIQUE_VIDE);
+        }
+
         return new ArrayList<>(historiques);
     }
 
-    public double getsoldeDuCompte() {
+    public double getSoldeDuCompte() {
         return this.soldeDuCompte;
     }
 
     private void validateMontant(double montant) {
         if (montant <= 0) {
-            throw new IllegalArgumentException("Le montant doit être positif");
+            throw new IllegalArgumentException(MONTANT_POSITIF);
         }
     }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 
 }

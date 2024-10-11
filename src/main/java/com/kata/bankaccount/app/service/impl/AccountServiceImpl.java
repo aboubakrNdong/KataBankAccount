@@ -1,7 +1,8 @@
-package com.kata.bankaccount.app;
+package com.kata.bankaccount.app.service.impl;
 
-import com.kata.bankaccount.domain.Account;
-import com.kata.bankaccount.domain.Historique;
+import com.kata.bankaccount.app.AccountService;
+import com.kata.bankaccount.domain.model.Account;
+import com.kata.bankaccount.domain.model.Historique;
 import com.kata.bankaccount.port.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,13 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
     }
 
+    @Override
     public List<Historique> getHistorique() {
         return account.getHistorique();
     }
 
-    public double getsoldeDuCompte() {
-        return account.getsoldeDuCompte();
+    @Override
+    public double getSoldeDuCompte() {
+        return account.getSoldeDuCompte();
     }
 }

@@ -1,4 +1,4 @@
-package com.kata.bankaccount.Adapter;
+package com.kata.bankaccount.adapter;
 
 import java.util.List;
 import java.util.Map;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import com.kata.bankaccount.app.AccountService;
-import com.kata.bankaccount.domain.Historique;
+import com.kata.bankaccount.domain.model.Historique;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,7 @@ public class AccountController {
 
             double montant = request.get("montant");
             accountService.depot(montant);
-       return ResponseEntity.ok("dépot réussi. nouveau solde: " + accountService.getsoldeDuCompte());
+       return ResponseEntity.ok("dépot réussi. nouveau solde: " + accountService.getSoldeDuCompte());
        
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -37,7 +37,7 @@ public class AccountController {
         try {
             double montant = request.get("montant");
             accountService.retrait(montant);
-            return ResponseEntity.ok("Retrait réussi. Nouveau solde: " + accountService.getsoldeDuCompte());
+            return ResponseEntity.ok("Retrait réussi. Nouveau solde: " + accountService.getSoldeDuCompte());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
