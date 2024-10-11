@@ -11,7 +11,6 @@ import com.kata.bankaccount.domain.model.Historique;
 
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/api/account")
 public class AccountController {
@@ -20,32 +19,32 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/depot")
-    public ResponseEntity<String> depot(@RequestBody Map<String, Double> request) {
+    public ResponseEntity<String> depot(@RequestBody Map<String, Object> request) {
         try {
-
-            double montant = request.get("montant");
-            accountService.depot(montant);
-       return ResponseEntity.ok("dépot réussi. nouveau solde: " + accountService.getSoldeDuCompte());
-       
+            long accountID = ((Number) request.get("accountID")).longValue(); 
+            double montant = ((Number) request.get("montant")).doubleValue(); 
+            accountService.depot(accountID, montant);
+            return ResponseEntity.ok("Dépot réussi. Nouveau solde: " + accountService.getSoldeDuCompte(accountID));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/retrait")
-    public ResponseEntity<String> retrait(@RequestBody Map<String, Double> request) {
+    public ResponseEntity<String> retrait(@RequestBody Map<String, Object> request) {
         try {
-            double montant = request.get("montant");
-            accountService.retrait(montant);
-            return ResponseEntity.ok("Retrait réussi. Nouveau solde: " + accountService.getSoldeDuCompte());
+            long accountID = ((Number) request.get("accountID")).longValue(); 
+            double montant = ((Number) request.get("montant")).doubleValue(); 
+            accountService.retrait(accountID, montant);
+            return ResponseEntity.ok("Retrait réussi. Nouveau solde: " + accountService.getSoldeDuCompte(accountID));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/historique")
-    public ResponseEntity<List<Historique>> getHistorique() {
-        return ResponseEntity.ok(accountService.getHistorique());
+    public ResponseEntity<List<Historique>> getHistorique(@RequestParam long accountID) {
+        return ResponseEntity.ok(accountService.getHistorique(accountID));
     }
 }
 

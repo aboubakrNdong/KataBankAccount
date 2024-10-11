@@ -4,17 +4,16 @@ import org.springframework.stereotype.Service;
 import com.kata.bankaccount.domain.model.Historique;
 import java.util.List;
 
-
 @Service
 public interface AccountService {
 
-        void depot(double montant);
+        void depot(long accountID, double montant);
 
-        void retrait( double montant);
+        void retrait(long accountID, double montant);
 
-        List<Historique> getHistorique();
+        List<Historique> getHistorique(long accountID);
 
-        double getSoldeDuCompte();
+        double getSoldeDuCompte(long accountID);
     }
 
     
